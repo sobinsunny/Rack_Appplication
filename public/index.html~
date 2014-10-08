@@ -1,0 +1,12 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body background-color="yellow">
+	<form action="http://localhost:8080/" method="post">
+			Enter the path<input type="text" name="path"><br>
+			<input type="submit" name="submit" value="submit">
+	</form>
+
+</body>
+</html>

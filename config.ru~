@@ -1,0 +1,32 @@
+require 'rubygems'
+require 'rack'
+require 'rack/server'
+
+class EnvInspector
+ 	def self.call(env)
+  	        request = Rack::Request.new env
+  		@name=request.params["path"]
+		@name.prepend("/home/")
+		@result="";
+		 if File::directory?((@name.to_s))
+
+  		    Dir.foreach(@name) do |item|
+
+		         item=item.sub(/([^\s]+(\.(?i)(jpg|png|gif|bmp))$)/,"<img src='file://#{@name}\/\\0'width=100px height=100px/>")
+			 @result =@result + "<li>#{item}</li>"
+		     end
+
+                        @result.prepend("<ul>");
+			@result+="</ul>";
+			[200, {"Content-Type"=>"text/html"},["#@result"]]
+
+
+                     else
+
+                         [200, {"Content-Type"=>"text/html"},["No file in this directory"]]
+
+		 end			
+        end
+end
+
+Rack::Server.start :app => EnvInspector
